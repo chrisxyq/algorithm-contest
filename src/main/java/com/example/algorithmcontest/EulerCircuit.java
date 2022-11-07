@@ -1,7 +1,6 @@
 package com.example.algorithmcontest;
 
 
-
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -15,6 +14,12 @@ import java.util.stream.Collectors;
 
 /**
  * 20221010题目：
+ * 天气凉快了，大家都喜欢饭后在园区进行散步，园区的道路四通八达，
+ * 大家都有自己习惯的散步路线，那有没有什么路线是可以一次性走完所有的道路而不重复的呢，
+ * 下面是个简单的园区线路图，每一条双向箭头都表示了一条道路，可以双向通行，但只能走一次，
+ * 那么如果我们从大棚(A)出发，有没有路线可以一次性走完所有的道路，又回到大棚的呢，
+ * 如果有的话，请列举所有的路线，以每个地点的字母排列出来，例如：ABCDEF
+ *
  * 判断欧拉回路
  * 存在欧拉回路充要条件：当且仅当图是连通的而且每个顶点的度是偶数
  */
@@ -32,7 +37,7 @@ public class EulerCircuit {
      * @return
      * @throws NotFoundException
      */
-    public static List<Integer> eulerCircuitByDFS(int[][] unDirectedEdges, int n, int k) throws NotFoundException {
+    public List<Integer> eulerCircuitByDFS(int[][] unDirectedEdges, int n, int k) throws NotFoundException {
         if (unDirectedEdges == null || unDirectedEdges.length <= 1 || n <= 2) {
             throw new NotFoundException();
         }
@@ -67,7 +72,7 @@ public class EulerCircuit {
      * @param currentPath
      * @throws NotFoundException
      */
-    public static void dfs(Map<Integer, List<Integer>> graph, int k, int origin, List<Integer> currentPath)
+    public void dfs(Map<Integer, List<Integer>> graph, int k, int origin, List<Integer> currentPath)
             throws NotFoundException {
         currentPath.add(k);
         for (int i = 0; i < graph.get(k).size(); i++) {
@@ -117,7 +122,7 @@ public class EulerCircuit {
      * 如果有的话，请列举所有的路线，以每个地点的字母排列出来，例如：ABCDEF
      */
     @Test
-    public  void test() throws NotFoundException {
+    public void test() throws NotFoundException {
         int testCase = 2;
         int n = 0, k = 0;
         int[][] unDirectedEdges = null;
@@ -138,7 +143,7 @@ public class EulerCircuit {
                 break;
         }
         List<Integer> integers = eulerCircuitByDFS(unDirectedEdges, n, k);
-        log.info(JSON.toJSONString(integers.stream().map(EulerCircuit::numToLetter).collect(Collectors.toList())));
+        log.info(JSON.toJSONString(integers.stream().map(this::numToLetter).collect(Collectors.toList())));
     }
 
     /**
@@ -147,17 +152,18 @@ public class EulerCircuit {
      *
      * @param input
      */
-    public static int letterToNum(char input) {
+    public int letterToNum(char input) {
         return ((int) input) - 65;
     }
-    public static int[][] letterToNumArr(char[][] charArr) {
+
+    public int[][] letterToNumArr(char[][] charArr) {
         int[][] intArr = new int[charArr.length][];
         for (int x = 0; x < charArr.length; x++) {
             int[] subArr = new int[charArr[x].length];
             for (int y = 0; y < charArr[x].length; y++) {
                 subArr[y] = letterToNum(charArr[x][y]);
             }
-            intArr[x]=subArr;
+            intArr[x] = subArr;
         }
         return intArr;
     }
@@ -169,7 +175,7 @@ public class EulerCircuit {
      *
      * @param input
      */
-    public static char numToLetter(int input) {
+    public char numToLetter(int input) {
         return (char) (input + 65);
     }
 
