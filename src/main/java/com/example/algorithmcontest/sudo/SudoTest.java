@@ -2,6 +2,9 @@ package com.example.algorithmcontest.sudo;
 
 import java.util.Scanner;
 
+/**
+ * 20221031题目
+ */
 public class SudoTest {
     /**
      * 测试

@@ -31,7 +31,7 @@ public class SudoSolver {
     public static boolean hasUniqueAnswer(char[][] board) {
         List<Sudo> sudoList = solveSudoGetAll(board);
         boolean res = !CollectionUtils.isEmpty(sudoList) && sudoList.size() == 1;
-        System.out.println(String.format("该数独解的个数为：%s,是否有唯一解：%s", sudoList.size(), res));
+        System.out.println(String.format("该数独是否有唯一解：%s",  res));
         return res;
     }
 
@@ -91,6 +91,10 @@ public class SudoSolver {
     }
 
     static void backtrackGetAll(char[][] board, int row, int col) {
+        //为防止计算太久，答案超过1了，说明没有唯一解，跳出
+        if(sudoList.size()>1){
+            return;
+        }
         if (col == THRESHOLD) {
             // 穷举到最后一列的话就换到下一行重新开始。
             backtrackGetAll(board, row + 1, 0);
